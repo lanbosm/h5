@@ -1,31 +1,85 @@
-// 新建server服务器  
-var http = require('http');  
-  
-var hostname = '127.0.0.1';  
-var port = 3000;  
-  
-var server = http.createServer(function(req, res) {  
-    // res.writeHead(200, {'Content-Type': 'text/html'});    
-    // res.writeHead(200, {'Content-Type': 'text/plain'});    
-    res.statusCode = 200;  
-    res.setHeader('Content-Type', 'text/html');  
-    // res.getHeader('content-type')  
-  
-    res.write('<head><meta charset="utf-8"/></head>');  
-    // res.charset = 'utf-8';   不行  
-  
-    var htmlDiv = '<div style="width: 200px;height: 200px;background-color: #f0f;">div</div>';  
-    res.write('<b>亲爱的，你慢慢飞，小心前面带刺的玫瑰...</b>');  
-    res.write(htmlDiv);  
-  
-    // 有参数=先调用 res.write(data, encoding) 之后再调用 res.end().  
-    res.end('<h1>Hello world!</h1>');  
-});  
-  
-server.listen(port, hostname, function() {  
-    // hostname是const类型时，可以用以下写法  
-    //console.log('Server running at http://${hostname}:${port}/');  
-  
-    console.log('Server running at http://%s:%s', hostname, port);  
-    // console.log('Server running at http://' + hostname + ':' + port + '/');  
+
+
+const express= require('express');
+const path = require('path');
+const consolidate = require('consolidate');
+
+
+
+// 鍏佽璺ㄥ煙璁块棶
+// app.all('*', function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+//     res.header("X-Powered-By",' 3.2.1')
+//     res.header("Content-Type", "application/json;charset=utf-8");
+//     next();
+// });
+
+// 鍒涘缓涓�涓猠xpress瀹炰緥 s
+let app = express();
+//app.use(bodyParser.urlencoded({extended:true}));
+
+app.locals.toy = '杩欐槸涓�涓狝PP';
+//app.enable('view cache');
+
+let env = process.env.NODE_ENV || 'development';
+if ('development' === env) {
+    // configure stuff here
+    // app.enable("view cache");
+}else{
+
+}
+
+//var a=app.enabled('view cache');
+// .listen(3000,function(){
+//     console.log('ok its running');
+// });
+
+let server = require('http').Server(app);
+
+
+
+// require('./routes/chat2').bb.attach(server);
+// app.set('view cache', true);
+app.use('/api', require('./routes/api'));
+
+
+
+app.set('view engine', 'html');
+app.engine('html', consolidate.ejs);
+//app.engine('html', require('ejs').renderFile);
+
+
+app.set('views', path.resolve(__dirname, 'views'));
+app.set('view cache', false);
+app.set('trust proxy', true);
+
+
+app.use('/public',express.static(__dirname+'/public'));
+app.use('/static',express.static(__dirname+'/dist'));
+app.use('/upload',express.static(__dirname+'/upload'));
+server.listen(3000,function(){
+    console.log('ok its run in port 3000 and env in ' +env  );
 });
+
+// var options = {
+//     hostname: 'www.qq.com',
+//     port: 80,
+//     path: '/',
+//     method: 'GET'
+// };
+// var req = http.request(options, function (res) {
+//     console.log('STATUS: ' + res.statusCode);
+//     console.log('HEADERS: ' + JSON.stringify(res.headers));
+//     res.setEncoding('utf8');
+//     res.on('data', function (chunk) {
+//         console.log('BODY: ' + chunk);
+//     });
+// });
+
+
+//app.set('view cache',false);
+
+
+//server

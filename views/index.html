@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <style></style>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div class="wrapper">
+        
+        <div class="container">
+            <div class="row align-items-center" style="height: 200px; background: #cccccc;">
+                    <div class="col">
+                您的ip是 <%= data.ip -%>
+
+                    </div>
+             </div>
+
+            <ul class="row">
+                
+                <% for(var item in data.items ){ %>
+                     <li class="col-12"> <%= data.items[item]  _%></li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"/></script>
+<script type="text/javascript">
+
+    function getCookie(name){
+        //document.cookie获取当前网站的所有cookie
+        var arr=document.cookie.split('; ');
+        for(var i=0;i<arr.length;i++){
+            var arr1=arr[i].split('=');
+            if(arr1[0]==name){
+                return arr1[1];
+            }
+        }
+        return '';
+    }
+
+    function setCookie(name,value,myDay){
+        var oDate=new Date();
+        oDate.setDate(oDate.getDate()+myDay);
+        document.cookie=name+'='+value+'; expires='+oDate;
+    }
+
+    function removeCookie(name){
+        setCookie(name,1,-1);
+    }
+
+    if(document.querySelector('.login-btn')) {
+        document.querySelector('.login-btn').addEventListener('click', function () {
+            console.log(document.cookie);
+            var uname = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            // alert(uname);
+
+            if (!uname) {
+                alert('请输入用户名');
+                return;
+            }
+            if (!password) {
+                alert('请输入密码');
+                return;
+            }
+            setCookie('uname', uname, 1);
+
+            document.getElementById('form1').submit();
+            //var aa=getCookie('io');
+            //location.href=location.href;
+
+        }, false)
+    }
+
+    if(document.querySelector('.loginout-btn')) {
+        document.querySelector('.loginout-btn').addEventListener('click', function () {
+
+            removeCookie('uname');
+
+            var c = confirm('do you want loginout?');
+            if (c) {
+                location.href = '/test/loginout';
+            }
+        }, false)
+    }
+</script>
+</html>
