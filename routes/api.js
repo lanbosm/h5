@@ -1,25 +1,72 @@
-let express= require('express');
-let cookieParser = require('cookie-parser');
-let bodyParser=require('body-parser');
-let router = express.Router();
-let path=require('path');
+const path=require('path');
+const fs = require('fs');
 
-let resCode=require('../code');
-let fs = require('fs');
+const express= require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser=require('body-parser');
+const router = express.Router();
 
-let util = require('../util');
-let config = require('../code/config');
+const util = require('../util');
+const wxSignature = require('../util/wx_signature');
+const wxAuth = require('../util/wx_auth');
 
 
-
+const resCode=require('../code');
 
 
 const secret='lanbodaren';
 const ck='lanbokey';
 router.use(cookieParser(secret));
 
+//请求主体解析
+//router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({extended:true}));//extended:true
 
 
+var testDomain='http://lanbosm.free.ngrok.cc';
+var prodDomain='http://wechat.billboardpr.com';
+
+
+
+//微信2小时刷新(动态获取access_token以及jsapi_ticket)
+wxSignature.getTokenAndTicket(); //第一次初始化
+setInterval(function(){
+    wxSignature.getTokenAndTicket();
+},1000 * 60 * 60*  2)
+
+
+
+
+router.get('/code',function(req,res){
+    let currentUrl = testDomain+'/api/wxUserInfor';
+    wxAuth.getCode(req,res,currentUrl);
+
+})
+
+
+router.get('/cos',function(req,res){
+    res.send('haha2');
+
+})
+
+
+//获取当前用户微信的信息
+router.get('/wxUserInfor',function(req,res){
+    wxAuth.getWxUserInfor(req,res)
+})
+
+
+//获取当前用户(上传当前完整路径)
+router.get('/wxSign',function(req,res,next){ // #返回jsonp
+
+    let currentUrl = req.query.currentUrl;
+    var sign=wxSignature.wxSignature(req,res,currentUrl) //签名
+
+   // res.set("Access-Control-Allow-Origin","*") //设置解决跨域问题
+    res.jsonp({sign});
+
+    //res.jsonp({status:'jsonp'});
+});
 
 //var cpUpload = upload.fields([{ name: 'file1', maxCount: 1 }]);
 //getAuth();
@@ -46,7 +93,6 @@ router.use(cookieParser(secret));
 
 
 //router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({extended:true}));//extended:true
 
 // var crypto = require('crypto');
 //

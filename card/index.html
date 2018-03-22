@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Tencent-CP" />
+    <meta name="robots" content="all" />
+    <meta name="Copyright" content="Tencent-CP" />
+    <meta name="applicable-device" content="mobile">
+    <meta name="Description" content="穿越火线" />
+    <meta name="Keywords" content="穿越火线" />
+    <title>穿越火线</title>
+    <!--页面设计：cp | 页面制作:lanbo | 创建:2016-01-07 | 团队博客：http://tgideas.qq.com/ -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="blxack">
+    <meta name="format-detection" content="telephone=no" />
+    <script type="text/javascript">
+    	
+    	 //页面初始化 s
+        document.addEventListener("DOMContentLoaded", function (e) {
+     	 var w=e.target.activeElement.clientWidth>=1024?1024:e.target.activeElement.clientWidth;
+            document.getElementById('wrap').style.zoom = w / 320;
+            document.getElementById('loadingBox').style.zoom = w / 320;
+    
+        });
+
+        
+
+    </script>
+    <style>
+    /* reset */
+*{margin:0; padding:0;}
+li{ list-style:none;}
+
+body{font:12px/1.5 'Microsoft YaHei','\5b8b\4f53',sans-serif; font-family:'黑体'; background:#070a13;}
+a{border:none; }
+em{font-style:normal;}
+img{width:100%; border:none;-webkit-user-select: none; display:block;}
+.mc{ margin:0 auto;}
+.pr{position:relative;}
+.pa{position:absolute;}
+.fl{float: left;}
+.ti{text-indent:-999em;}
+.btn{ display:block; position:absolute; z-index:30; text-indent:-999em; -webkit-user-select:none;: }                                                                    
+p,i,em{font-style:normal; text-indent:0em; display:block;}
+.hid{ display:none !important;}
+.poniterNone{pointer-events:none; }
+html, body {height:100%;-webkit-box-sizing: border-box;box-sizing: border-box;overflow: hidden;}
+input,button,select,textarea {outline:none; border:none; text-indent:0em; font-family:"微软雅黑", "黑体", "宋体";}
+a ,input{-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-tap-highlight-color: transparent; /* For some Androids */}
+.clearfix:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
+.clearfix{*zoom:1;}
+.current div ,.current p ,.current em{-webkit-animation-play-state:running !important;}
+/*content*/
+#wrap{width:320px;height:554px;  margin:0 auto; overflow: hidden; position: relative;  }
+.s{width:100%; height:100%;  position: absolute;overflow: hidden; }
+.s-con{width: 320px;height: 554px; left:50%; top:50%; margin:-252px 0 0 -160px;  overflow: hidden;  position:relative;  -webkit-perspective:200px; }
+.s1{ background:url(images/bg.jpg) no-repeat; background-size:cover;   z-index:10;  }
+
+.btn{ width: 116px; height: 32px; text-indent: 0;  }
+
+.s1  .btn1{ left: 18px; top: 360px; }
+.s1  .btn2{ right: 18px; top: 360px; }
+.btn{ background:url(images/btn_link.png)  no-repeat; background-size: cover; line-height: 32px; text-align: center; color:#fff5d9;}
+.btn.active{ background:url(images/btn_active.png)  no-repeat; background-size: cover;  }
+
+.s2{ background:url(images/bg2.jpg) no-repeat; background-size:cover; -webkit-animation: opacityShow .3s linear both;
+animation: opacityShow .3s linear both;  }
+.s2-con{ background: red; }
+
+@-webkit-keyframes opacityShow {
+  0% { opacity: 0; }
+  100% {  opacity: 1;  }
+}
+
+@-webkit-keyframes tipsShow{
+  0%,100% { opacity: 0; }
+  20%,80% {  opacity: 1;  }
+
+}
+  .game-box{width: 320px; height: 504px; position: relative; top: 50px; }
+      .lovelive{width: 320px; height: 504px;  position: absolute; bottom: 0; }
+      .shoot-btn{width: 57px; height: 57px; background: url(images//shoot_off.png) no-repeat; background-size:cover ; bottom: 50px; right: 20px;
+        display: block; z-index: 30; position: absolute;
+      }
+      
+      .shoot-btn.active{ background: url(images/shoot_on.png) no-repeat; background-size:cover ; }
+      #cfg{ pointer-events:none; }
+      #cfg.cfgBody1{width:120px; height: 206px; background: url(images/cfg_body.png) no-repeat; background-size:100% 100%;  top:298px; left: 0px; position: absolute;}
+      #cfg.cfgBody2{width:83px; height: 68px; background: url(images/cfg_body2.png) no-repeat; background-size:100% 100%;  top:436px; left: 0px; position: absolute;}
+      #cfg.cfgBody1 .tou{width: 72px; height: 97px; left:20px;  bottom:  40px; position: absolute;
+          -webkit-transition: all .3s;
+          transition: all .3s;
+       }
+      #cfg.cfgBody1 .tou img{width:100%; }
+     
+      
+      #cfg.cfgBody1.tou1 .tou{width: 72px; height: 97px;   }
+      #cfg.cfgBody1.tou2 .tou{width: 107px; height: 133px; left: 10px }
+      #cfg.cfgBody1.tou3 .tou{width: 133px; height: 169px; left: -8px; bottom:  30px; }
+      
+      #cfg.cfgBody2 .tou{width: 119px; height: 140px; left:-20px;  bottom:  40px; position: absolute; display: ~none;}
+      #cfg.cfgBody2.tou1 .tou{width: 119px; height: 140px;   }
+      #cfg.cfgBody2.tou2 .tou{width: 131px; height: 154px; left: -30px }
+      #cfg.cfgBody2.tou3 .tou{width: 145px; height: 170px; left: -40px;  }
+      .cd-box{width:246px; height: 18px; background: url(images/cd_box.png) no-repeat; background-size:cover; margin: 0 auto; left: 0; right: 0; top: 30px; position: absolute; }
+      .timebar{ width: 0%; height: 18px;background: url(images/cd_time.png) no-repeat; background-size:246px 18px;  position: absolute; left: 0;-webkit-transition: width 1s linear ;transition: width 1s linear;
+       } 
+     
+      .boom{width:82px; height: 82px; background: url(images/boom.gif) no-repeat;  background-size:cover; position: absolute;
+     left: 0px; top: 0px; -webkit-animation: boomAni .6s linear both;
+     animation: boomAni .4s linear both;}
+  
+    @-webkit-keyframes boomAni {
+      0% { opacity: 1; }
+      100% {  opacity: 1;  }
+    }
+    
+    .round2-tips{width: 100%; position: absolute; bottom: 40px; z-index: 10; pointer-events: none; -webkit-animation: tipsShow 1s linear infinite  both;  animation: tipsShow 1s linear infinite both;}
+	
+    .pop{width: 320px; height: 554px; position:fixed; top: 0; background: rgba(0,0,0,0.7); margin: 0 auto; z-index: 99; display: none; 
+        -webkit-animation: opacityShow .3s linear both;
+        animation: opacityShow .3s linear both;
+    }
+    .pop-btn{ margin: 0 auto; left: 0; right: 0; bottom: 20px; }
+	  .pop-rule{ -webkit-animation: none;animation:none;}
+    .pop-rule .pop-con{width: 239px; height:342px; background: url(images/pop_comm.png) no-repeat; background-size:cover; position: absolute; left: 50%; top: 50%;
+          margin-left:-119px; margin-top:-171px;
+    }
+    .pop-rule .pop-con p{width:176px; margin: 30px auto; }
+    .pop-lose .pop-con,.pop-win .pop-con{width: 247px; height:350px;  position: absolute; left: 50%; top: 50%;
+          margin-left:-123px; margin-top:-175px;
+    }
+
+    .pop-round2{ -webkit-animation: tipsShow 3s linear both;
+        animation: tipsShow 3s linear both;}
+    .pop-round2 .pop-con,.pop-cdk .pop-con{width: 239px; height:167px; position: absolute; left: 50%; top: 50%;
+          margin-left:-120px; margin-top:-83px;
+    }
+    .red-line{width: 320px; height: 293px; position:absolute ;left: 50%; top: 50%;  margin-left:-160px; margin-top:-147px; z-index: 3; pointer-events: none; -webkit-animation:  scaleShow 2s linear infinite both; animation:  scaleShow 2s linear  infinite both; }
+	
+	.cdk-box{width:164px; height: 55px; background: url(images/cdk.png) no-repeat; background-size:cover; position: absolute; left: 0; right: 0;
+	margin:0 auto; top: 30px; }
+	#cdk{ width:164px; height:20px; background:none; line-height:20px; left: 0px; top: 35px; font-size:12px; z-index:99;position:absolute; color:#fff; text-indent:0; text-align: center; }
+     @-webkit-keyframes scaleShow{
+      0%{ -webkit-transform:scale(0.2); opacity:0;}
+      25%{ -webkit-transform:scale(1);  opacity:1;}
+      50%{ -webkit-transform:scale(1);  opacity:0;}
+      100%{ -webkit-transform:scale(1);  opacity:0;}
+    }
+    @-webkit-keyframes sloganShow{
+      0%{ -webkit-transform:scale(0.2); opacity:0;}
+      70%{ -webkit-transform:scale(1);  opacity:1;}
+      100%{ -webkit-transform:scale(1);  opacity:1;}
+    }
+
+    @-webkit-keyframes sloganEffect{
+      0%{ -webkit-transform:scale(1); opacity:0; }
+      30%{ -webkit-transform:scale(1); opacity:1; }
+      60%{ -webkit-transform:scale(1.05);  opacity:1; }
+      100%{ -webkit-transform:scale(1.08);  opacity:0;}
+    }
+
+   
+
+ .pop-txtBox{width:149px; height:102px; top:30px; left:0px; right: 0; margin: 0 auto; position:absolute; z-index:30; }
+ .pop-txt1{width:100%; height:100%; top:0px;   -webkit-animation: sloganShow .5s linear  both; position:absolute;  }
+ .pop-txt1Effect{width:100%; height:100%; top:0px; -webkit-animation: sloganEffect 1s linear .3s  infinite both;  position:absolute; z-index:2;}
+</style>
+
+
+</head>
+<body >
+ <!-- load--> 
+<div id="markBox" style="width:100%; height:100%; position:fixed; display:none; left:0; top:0; z-index:9999; background:rgba(0,0,0,0.1);">
+    <div style="  position:absolute; left:50%; top:50%;"><div class="bk" style="position:relative;width:146px;height:146px;background-color:#000;opacity:.5;border-radius:10px;margin:-73px 0 0 -73px;z-index:0"></div><div class="cont" style="position:relative;width:146px;height:146px;position:relative;margin:-146px 0 0 -73px;text-align:center;color:#f5f5f5;font-size:14px;line-height:35px;z-index:1"><img src="http://file.starnet-social.com/static/img/loading.gif" alt="loading..." style="width:35px;height:35px;margin:30px auto;display:block"><span id="popFailVal">正在获取...</span></div></div>
+</div>
+
+
+<!--  load -->
+<div id="loadingBox" style="width:100%; height:100%; background:rgba(0,0,0,0.7);  position:fixed; display:none; left:0; top:0; z-index:9999;  ">
+		<div id="loading-center" style=" width: 100%; height: 50px; top:50%; margin-top: -25px; position: absolute;">
+			<div id="loading-bar" style="width:246px; height: 18px; background: url(images/cd_box.png) no-repeat; background-size:cover; margin: 0 auto; left: 0; right: 0; top: 30px; position: absolute;"><div id="loading-per" style="width: 0%; height: 18px;background: url(images/cd_time.png) no-repeat; background-size:246px 18px;  position: absolute; left: 0;-webkit-transition: width .2s linear ;transition: width .2s linear;"></div></div>
+				<div id="loading-txt" style="width: 100%; height: 30px; top: 60px; font-weight:bold; position: absolute; text-align:center; color: #fff5d9; -webkit-animation: tipsShow 2s linear infinite  both;
+        animation: tipsShow 2 linear infinite both;" >火线姐全副武装中...(0%)</div>
+		</div>
+
+</div>
+<div class="top" style="width: 100%; position: fixed; top: 0; left: 0px; z-index: 99;"  onclick="popShow('pop-qrc');" ><img src="images/top.png"/></div>
+<div id="wrap">
+ <div class="pop pop-qrc" id="pop-qrc"  onclick="popHide('pop-qrc');"  >
+        <div class="pop-con" style="width: 250px; margin: 0 auto; position: absolute; top: 100px; z-index: 99; left:0; right: 0; color: #fff; text-align: center; line-height: 100px; ">
+            <img src="images/qrc.jpg">
+            <p>长按上方二维码 一键关注微信公众号</p>
+        </div>
+  </div>   
+  <div class="pop pop-rule" id="pop-rule">
+        <div class="pop-con">
+            <p><img src="images/pop_rule.png"></p>
+            <a class="btn pop-btn" onClick="popHide('pop-rule');">知道了</a>
+        </div>
+  </div>   
+  <div class="pop pop-lose" id="pop-lose1">
+        <div class="pop-con">
+        	   <img src="images/pop_lose1.png" />
+               <a class="btn pop-btn again-btn">重新游戏</a>
+        </div>
+  </div> 
+  <div class="pop pop-lose" id="pop-lose2" >
+        <div class="pop-con">
+        	   <img src="images/pop_lose2.png" />
+               <a class="btn pop-btn again-btn">重新游戏</a>
+        </div>
+  </div>  
+
+   <div class="pop pop-win" id="pop-win1" >
+   		<h2 style="display:none;">精英礼包</h2>
+   		<div class="red-line"><img src="images/red_line.png"/></div>
+        <div class="pop-con">
+        	   <img src="images/pop_win1.png" />
+        	   <a class="btn pop-btn bonus-btn" style="bottom: 80px;">领取奖励</a>
+               <a class="btn pop-btn share-btn">分享好友</a>
+        </div>
+  </div> 
+   <div class="pop pop-win" id="pop-win2" >
+   		<h2 style="display:none;">专家礼包</h2>
+   		<div class="red-line"><img src="images/red_line.png"/></div>
+        <div class="pop-con">
+        	   <img src="images/pop_win2.png" />
+        	   <a class="btn pop-btn bonus-btn" style="bottom: 80px;">领取奖励</a>
+               <a class="btn pop-btn share-btn">分享好友</a>
+        </div>
+  </div>   
+
+   <div class="pop pop-win" id="pop-win3" >
+   		<h2 style="display:none;">大师礼包</h2>
+   		<div class="red-line"><img src="images/red_line.png"/></div>
+        <div class="pop-con">
+        	   <img src="images/pop_win3.png" />
+        	   <a class="btn pop-btn bonus-btn" style="bottom: 80px;">领取奖励</a>
+               <a class="btn pop-btn share-btn">分享好友</a>
+        </div>
+  </div>   
+   <div class="pop pop-win" id="pop-win4" >
+   		<h2 style="display:none;">枪王礼包</h2>
+   		<div class="red-line"><img src="images/red_line.png"/></div>
+        <div class="pop-con">
+        	   <img src="images/pop_win4.png" />
+        	   <a class="btn pop-btn bonus-btn" style="bottom: 80px;">领取奖励</a>
+               <a class="btn pop-btn share-btn" >分享好友</a>
+        </div>
+  </div>   
+  <div class="pop pop-round2" id="pop-round2">
+        <div class="pop-con">
+        	<img src="images/pop_round2.png" />
+            <div class="pop-txtBox pa">
+                <div class="pop-txt1"><img src="images/pop_round2_txt.png"/></div>
+                <div class="pop-txt1Effect"><img src="images/pop_round2_txt.png"/></div>
+             </div>
+        </div>
+  </div>
+   <div class="pop pop-cdk" id="pop-cdk" >
+        <div class="pop-con">
+        	<img src="images/pop_round2.png" style="pointer-events: none;" />
+            <div class="cdk-box"><p id="cdk" >wefirehappy2016</p></div>
+            <a class="btn pop-btn duihuan-btn" href="http://cfm.qq.com/cp/a20151125king/wxcdkey.htm" ontouchstart="_czc.push(['_trackEvent', '按钮', '立即兑换']);"style="left:-100px;-webkit-transform:scale(0.8 ); text-decoration: none;">立即兑换</a>
+            <a class="btn pop-btn game-btn"  href="http://cfm.qq.com/cp/a20151125king/wxcdkey.htm" ontouchstart="_czc.push(['_trackEvent', '按钮', '进入游戏']);" style="right:-100px; -webkit-transform:scale(0.8 );  text-decoration: none;">进入游戏</a>
+        </div>
+  </div>
+
+    <div class="pop pop-share" id="pop-share" onclick="popHide('pop-share');">
+        <style type="text/css">
+           
+        @-webkit-keyframes gunzi-ani{
+          0% { -webkit-transform:translate3d(-20px,10px,0);}
+          50% {-webkit-transform:translate3d(0px,0px,0);}
+          100% {-webkit-transform:translate3d(0px,-0px,0);}
+        }
+
+        </style>
+        <div class="share-box" style="position: absolute; right: 10px; top:10px; width: 93px; -webkit-animation:gunzi-ani .4s steps(1) infinite both;">
+          <img src="images/share_arrow.png" />
+        </div>
+  </div>      
+  <!-- w -->
+  <div class="s s1">
+      
+      <div class="s-con s1-con ">
+            <a class="btn btn1 start-btn " data-btn="start">开始游戏</a>
+            <a class="btn btn2 rule-btn " data-btn="rule" onClick="popShow('pop-rule');">游戏规则</a>
+      </div>
+  </div>
+
+  <!-- s -->
+  <div class="s s2 hid">
+         <div id="game-box" class="game-box">
+	         <div class="cd-box">
+	              <div class="timebar"></div>
+	         </div>
+	         <img  height=0  id="zidan"  src="images/zidan.png" />
+	          <!--niconiconi-->
+	          <canvas class="lovelive" id="lovelive" width="320" height="504"></canvas>
+	          
+	          <a class="shoot-btn hid"></a>
+	          <div class="round2-tips hid"><img src="images/round2_tips.png"></div>
+        </div>
+  </div>
+ 
+  
+ 
+  
+</div>
+
+
+
+
+
+<script src="js/zepto.min.js"></script>
+<script src="http://ossweb-img.qq.com/images/js/motion/loader.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script src=""></script>
+
+<script type="text/javascript">
+
+   openid = "odeYIjx5DZ-QK-pqEKmWaR1K6UjI2assd";;
+    
+    
+    
+
+var a = document.documentElement.clientHeight,
+s = document.documentElement.clientWidth;
+function e(e, n) {
+  var t, i = s / a,
+  r = 320 / 504;
+  t = i > r ? a / 504 : s / 320;
+  $(e).css({
+    "-webkit-transform-origin": n,
+    "transform-origin": n,
+    "-webkit-transform": "scale(" + t + ");",
+    transform: "scale(" + t + ");"
+  });
+};
+
+//资源
+var path="images/";
+var ImgLoadArr = ["shoot_off.png","shoot_on.png","cfg_body.png","cfg_body2.png","cfg_tou.png","cfg_tou2.png","daofeng.png","panduola.png","siwote.png","aomob.png","boom.gif","boom.mp3","zidan.png"];
+
+
+var sourceArr = [];
+	for (var i = 0; i < ImgLoadArr.length; i++) {
+		sourceArr[i] = path + ImgLoadArr[i];
+}
+	
+
+//音乐
+var audio = function(url,loop){
+    this.obj = new Audio();
+    this.obj.preload= 'auto';
+    this.obj.type = 'audio/mpeg';
+    this.obj.loop = loop;
+	this.obj.src=url;
+};
+
+var audios = [];
+audios[0] = new audio(path+"round1.mp3",true);
+audios[1] = new audio(path+"round2.mp3",true);
+audios[2] = new audio(path+"boom.mp3",false);
+audios[3] = new audio(path+"shoot.mp3",false);
+var round1Bgm = audios[0].obj;
+var round2Bgm = audios[1].obj;
+var boomBgm = audios[2].obj;	
+var shootBgm = audios[3].obj;
+
+//按钮
+$(".btn").on('touchstart', function(event) {
+      $(this).addClass('active');
+});
+$(".btn").on('touchend', function(event) {
+      $(this).removeClass('active');
+});
+scoff();
+
+$(".start-btn").on('tap',function(){
+    document.getElementById("loadingBox").style.display="block";
+    new mo.Loader(sourceArr,{
+			loadType : 0,
+			minTime:10,
+			onLoading : function(count,total){
+				 console.log('onloading:single loaded:',arguments)
+				 var per = Math.floor((count / total) * 100)
+
+		         document.getElementById("loading-per").style.width=per+"%";
+		         document.getElementById("loading-txt").innerHTML="火线姐全副武装中...("+per+"%)";
+        		
+				
+			},
+			onComplete : function(time){
+				  console.log('加载完成,总共耗时:'+time+'ms')
+			    document.getElementById("loading-txt").innerHTML="火线姐武装完毕，准备执行任务";
+			    shootBgm.play();
+			    shootBgm.pause();
+			    boomBgm.play();
+			    boomBgm.pause();
+			    CollideGame1=null; 
+			    gameMoudle=null;
+			    CollideGame1=new CollideGame({"timeMax":15}); 
+				setTimeout(function(){
+					 document.getElementById("loadingBox").style.display="none";
+	        		 $(".s1").addClass('hid');
+					 $(".s2").removeClass('hid');
+					 window.lv=1;
+					 round1Bgm.currentTime=0;
+					 round1Bgm.play();
+					 CollideGame1._ctrlRound1Game();
+					 window.scrollTo(0,300);
+
+	       		 },1000);
+			}
+	 })
+  scon();
+  window.scrollTo(0,300);
+  scoff();
+     // _czc.push(['_trackEvent', '按钮', '开始游戏']);
+});
+
+
+
+$('.again-btn').on('tap', function(event) {
+     /* Act on the event */
+     var that=this;
+    if($(this).data("disenable")){return false;}
+    $(this).data("disenable",true);
+    CollideGame1=null; 
+    gameMoudle=null; 
+    cdRound1Event(15);
+    setTimeout(function(){
+       round1Bgm.currentTime=0;
+       round1Bgm.play();
+       popHide("pop-lose1");
+       popHide("pop-lose2");
+       $(that).data("disenable",false);
+       window.lv=1;
+       CollideGame1=new CollideGame({"timeMax":15});  
+       CollideGame1._ctrlRound1Game();
+    },1100);
+
+});
+	
+
+ //发射子弹
+$(".shoot-btn").on('touchstart',function(e){
+    e.preventDefault();
+   $(this).addClass('active');
+   shootBgm.currentTime=0;
+   shootBgm.play();
+   CollideGame1._shootEvent();
+});
+$(".shoot-btn").on('touchend',function(){
+   $(this).removeClass('active');
+});
+
+
+$(".share-btn").on("click",function(){
+   popShow('pop-share');
+})
+var isGet=false;
+$(".bonus-btn").on('click',function(e){
+ 	var type=4-parseInt($(this).data('bonusLv'));
+   if(type==0){type=1;}
+ 	 if(isGet){  popShow("pop-cdk");  return false;}
+	 isGet=true;
+	 getCDK(type);
+ });
+
+
+
+function getCDK(type){
+     $("#markBox").show();
+
+     setTimeout(function(){
+              $("#markBox").hide();
+              popShow("pop-cdk")  
+              document.getElementById("cdk").innerHTML=json.CdkCode;
+                    
+     },500);
+
+}
+
+
+function scoff(){
+    //禁止微信下拉
+    $(window).on('scroll.elasticity',function(e) {
+        e.preventDefault();
+    }).on('touchmove.elasticity',function(e) {
+        e.preventDefault();
+    });
+    $(document).on('touchmove',function(e) {
+        e.preventDefault();
+    });
+}
+
+function scon(){
+    //禁止微信下拉
+    $(window).off('scroll.elasticity').off('touchmove.elasticity');
+    $(document).off('touchmove');
+}
+function popHide(e){
+    document.getElementById(e).style.display="none";
+    scoff() 
+    window.scrollTo(0,300);
+}
+
+function popShow(e){
+    document.getElementById(e).style.display="block";   
+    scon();
+    //window.scrollTo(0,0);
+}
+
+
+
+
+var lv=1;
+var bonus=1;
+//游戏碰撞的回调函数 
+function collide1Event(ele,game){ //ele:目标 game:游戏本体
+        if(ele.ren=="panduola"||ele.ren=="siwote"){
+            window.lv++;
+            if(window.lv>=3){window.lv=3;}
+             $("#cfg").removeClass().addClass('cfgBody1 tou'+window.lv);
+
+       		
+        }
+        else{ 
+            window.lv--;
+            if(window.lv<=1){window.lv=1;}
+             $("#cfg").removeClass().addClass('cfgBody1 tou'+window.lv);
+
+        }
+
+        var renList=game.npcList;
+        var liveRen=[];
+        for(var i=0; i< renList.length ; i++){
+               liveRen.push(renList[i].ren);
+        }
+       // console.log(liveRen);
+    
+       if(Zepto.inArray("daofeng",liveRen)==-1&&Zepto.inArray("aomob",liveRen)==-1){ //队友全部阵亡
+             game.gg=true;
+             popShow("pop-lose1");
+             round1Bgm.pause();
+        }
+        if(Zepto.inArray("panduola",liveRen)==-1&& Zepto.inArray("siwote",liveRen)==-1 && Zepto.inArray("daofeng",liveRen)>=0&&Zepto.inArray("aomob",liveRen)>=0){ //       // 敌人全部阵亡
+        	      //队友全部存活
+              game.gg=true;
+              window.bonus=4;
+              popShow("pop-round2");
+              $(".timebar").css("width","100%");
+              setTimeout(function(){
+                    popHide("pop-round2");
+                    game._ctrlRound2Game(window.lv);
+                    round2Bgm.currentTime=0;
+                    round2Bgm.play();
+              },3000);
+              round1Bgm.pause();
+        }
+        else if(Zepto.inArray("panduola",liveRen)==-1&& Zepto.inArray("siwote",liveRen)==-1){
+        	 	 
+               game.gg=true;
+                window.bonus=window.lv;
+              popShow("pop-round2");
+              $(".timebar").css("width","100%");
+              setTimeout(function(){
+                    popHide("pop-round2");
+                    game._ctrlRound2Game(window.lv);
+                    round2Bgm.currentTime=0;
+                    round2Bgm.play();
+              },3000);
+              round1Bgm.pause();
+        }  
+       else{
+       		 window.bonus=window.lv;
+       }      
+        console.log(window.bonus);
+        
+}
+
+
+
+
+//cd的回调函数  
+function cdRound1Event(t){//t:time 
+    $(".timebar").css("width",(100-t*6.6)+"%");   
+}
+
+function cdRound2Event(t){//t:time 
+    
+    $(".timebar").css("width",(t*20)+"%");
+          
+}
+
+//回合1结束的回调函数 
+function ggRound1Event(game){ //ele:目标 game:游戏本体
+        var renList=game.npcList;
+        var liveRen=[];
+        for(var i=0; i< renList.length ; i++){
+               liveRen.push(renList[i].ren);
+        }
+        if(Zepto.inArray("panduola",liveRen)!=-1 ||Zepto.inArray("siwote",liveRen)!=-1){ ///敌人有存活
+              game.gg=true;
+              popShow("pop-round2");
+              $(".timebar").css("width","100%");
+              setTimeout(function(){
+                    popHide("pop-round2");
+                    game._ctrlRound2Game(window.lv);
+                    round2Bgm.currentTime=0;
+                    round2Bgm.play();
+              },3000);
+            round1Bgm.pause();
+
+        } else{
+
+        }     
+}
+
+function ggRound2Event(game,res){//game:game  res:res
+   	
+   	var bonusLv={
+   		1:"精英",
+   		2:"专家",
+   		3:"大师",
+   		4:"枪王"
+   	}
+
+     //wxData.desc = "我在大头大乱斗中获得 "+bonusLv[window.bonus]+"礼包";
+     round2Bgm.pause();
+     if(res=="win"){
+     	popShow("pop-win"+window.bonus);
+     	$(".bonus-btn").data('bonusLv',window.bonus)
+     	round1Bgm.play();
+     }else{
+     	popShow("pop-lose2");
+     }
+          
+}
+ 
+
+ 
+</script>
+<script src="js/common.js"></script>
+<script src="/static/weChatShare.js"></script>
+
+<script>
+
+    weChatShare({
+        shareTitle: "呐呐呐",
+        shareDesc: "哈哈哈",
+        sharelink: window.location.href.indexOf('#') == -1 ? window.location.href : encodeURIComponent(window.location.href.substring(0, window.location.href.indexOf('#'))),
+        shareImgUrl: "http://lanbosm.free.ngrok.cc/h5/card/images/panduola.png", //200 *200
+        debug: false, //是否开启debug模式
+        ShareCallBack: function(res) {
+            if (res == 'success') {
+
+                alert('成功');
+             }
+        }
+    })
+</script>
+
+</body>
+</html>
+

@@ -16,7 +16,7 @@ const consolidate = require('consolidate');
 //     next();
 // });
 
-// 创建一个express实例 s
+// 创建一个express实例
 let app = express();
 //app.use(bodyParser.urlencoded({extended:true}));
 
@@ -43,21 +43,20 @@ let server = require('http').Server(app);
 // require('./routes/chat2').bb.attach(server);
 // app.set('view cache', true);
 app.use('/api', require('./routes/api'));
-
+app.use('/h5', require('./routes/h5'));
 
 
 app.set('view engine', 'html');
 app.engine('html', consolidate.ejs);
 //app.engine('html', require('ejs').renderFile);
-
+//获取当前用户(上传当前完整路径)
 
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view cache', false);
 app.set('trust proxy', true);
 
-
-app.use('/public',express.static(__dirname+'/public'));
-app.use('/static',express.static(__dirname+'/dist'));
+app.use('/static',express.static(__dirname+'/static'));
+app.use('/h5/card',express.static(__dirname+'/card'));
 app.use('/upload',express.static(__dirname+'/upload'));
 server.listen(3000,function(){
     console.log('ok its run in port 3000 and env in ' +env  );

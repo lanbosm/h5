@@ -11,6 +11,7 @@
     "url": "git+https://github.com/lanbosm/h5.git"
   },
   "dependencies": {
+    "async": "^2.0.1",
     "body-parser": "^1.18.2",
     "connect-redis": "^3.3.3",
     "consolidate": "^0.15.0",
@@ -19,7 +20,10 @@
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
-    "md5": "^2.2.1"
+    "md5": "^2.2.1",
+    "mysql": "^2.15.0",
+    "request": "^2.74.0",
+    "sha1": "^1.1.1"
   },
   "author": "",
   "license": "ISC",
