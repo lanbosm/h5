@@ -115,7 +115,15 @@ function WeChatSDKjsonpCallback(json) {
 
  //config信息验证后会自动执行ready方法
 wx.ready(function () {
-
+    wx.hideMenuItems({
+        menuList: [
+            "menuItem:share:appMessage",
+            "menuItem:share:timeline",
+            "menuItem:share:qq",
+            "menuItem:share:weiboApp",
+            "menuItem:share:QZone"
+        ] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+    });
     //页面一进入就调用的API
      //分享到朋友圈
     wx.onMenuShareTimeline({
