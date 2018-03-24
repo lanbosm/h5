@@ -25,7 +25,7 @@ db.query('USE `h5-card-game`', function (error, results, fields) {
 
 db.query('DROP TABLE IF EXISTS `game`');
 
-db.query(`CREATE TABLE game (gid INT AUTO_INCREMENT ,cards_max INT(2) , cards_now INT(2) , cards VARCHAR(255) , created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,  PRIMARY KEY (gid))` , function (error, results, fields) {
+db.query(`CREATE TABLE game (gid INT AUTO_INCREMENT ,cards_max INT(2) , cards_now INT(2) , cards VARCHAR(255) , created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,  PRIMARY KEY (gid))` , function (error, results, fields) {
     if (error) throw error;
     console.log('created game table OK');
 });
@@ -41,7 +41,7 @@ db.query(`CREATE TABLE game (gid INT AUTO_INCREMENT ,cards_max INT(2) , cards_no
 
 db.query(`DROP TABLE IF EXISTS player`);
 
-db.query(`CREATE TABLE player (id INT AUTO_INCREMENT , openId VARCHAR(64) NOT NULL ,gid INT , card_now VARCHAR(4)  , joinTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (id))` , function (error, results, fields) {
+db.query(`CREATE TABLE player (id INT AUTO_INCREMENT , openId VARCHAR(64) NOT NULL ,gid INT , card_now VARCHAR(4)  , joinTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (id))` , function (error, results, fields) {
     if (error) throw error;
     console.log('created player table OK');
 });

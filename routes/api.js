@@ -61,10 +61,11 @@ router.get('/oAuth2',function(req,res) {
     if(!req.session.accessTime){
         req.session.accessTime=0;
     }
-    if(req.session.accessTime>1){
+    if(req.session.accessTime>2){
+		
         req.session.destroy(function(err){
                 res.clearCookie(ck);
-                res.sendStatus(500);
+                res.redirect(req.app.locals.reqUrl);
         });
         return;
     }

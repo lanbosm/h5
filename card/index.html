@@ -323,20 +323,20 @@ var mineData=null;
 var gameData=null;
 var posting=false;
 
-
-
-$(function(){
         if(!openId){
               location.href="/api/oAuth2";
 
 //            $.get("/api/oAuth2",function(res){
 //                console.log(res);
 //            })
-        }else {
-          //  alert(openId);
-            setTimeout(init,0);
-
         }
+		
+
+$(function(){
+	
+	if(openId){
+		init();
+	}
 })
 
 
@@ -446,8 +446,8 @@ function waitServer(cb){
     weChatShare({
         shareTitle: "HR2018",
         shareDesc: "抽牌游戏",
-        sharelink: window.location.href.indexOf('#') == -1 ? window.location.href : encodeURIComponent(window.location.href.substring(0, window.location.href.indexOf('#'))),
-        shareImgUrl: "http://lanbosm.free.ngrok.cc/h5/card/images/fx.png", //200 *200
+        sharelink:'http://wechat.billboardpr.com/h5/card',
+        shareImgUrl: "http://wechat.billboardpr.com/h5/card/images/fx.png", //200 *200
         debug: false, //是否开启debug模式
         ShareCallBack: function(res) {
             if (res == 'success') {
