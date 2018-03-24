@@ -3,6 +3,7 @@ const fs = require('fs');
 
 const express= require('express');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const bodyParser=require('body-parser');
 const router = express.Router();
 
@@ -14,8 +15,19 @@ const wxAuth = require('../util/wx_auth');
 const resCode=require('../code');
 
 
-const secret='lanbodaren';
-const ck='lanbokey';
+const secret='expressnodewechat';
+const ck='wechatkey';
+
+// 按照上面的解释，设置 session 的可选参数
+router.use(session({
+    name :ck,
+    resave:false,
+    secret: secret, // 建议使用 128 个字符的随机字符串
+    cookie: { maxAge: 60 * 1000 *3 },
+    saveUninitialized:true
+    //rolling:true,
+}));
+
 router.use(cookieParser(secret));
 
 //请求主体解析
@@ -23,36 +35,49 @@ router.use(cookieParser(secret));
 router.use(bodyParser.urlencoded({extended:true}));//extended:true
 
 
-var testDomain='http://lanbosm.free.ngrok.cc';
-var prodDomain='http://wechat.billboardpr.com';
-
+//var saveDomain='http://lanbosm.free.ngrok.cc';
+var saveDomain='http://wechat.billboardpr.com';
 
 
 //微信2小时刷新(动态获取access_token以及jsapi_ticket)
 wxSignature.getTokenAndTicket(); //第一次初始化
 setInterval(function(){
     wxSignature.getTokenAndTicket();
-},1000 * 60 * 60*  2)
-
-
+},1000 * 60 * 60*  2);
 
 
 router.get('/code',function(req,res){
-    let currentUrl = testDomain+'/api/wxUserInfor';
-    wxAuth.getCode(req,res,currentUrl);
 
-})
-
-
-router.get('/cos',function(req,res){
-    res.send('haha2');
+    let redUrl = saveDomain+'/api/oAuth2';
+    wxAuth.getCode(req,res,redUrl);
 
 })
 
 
 //获取当前用户微信的信息
-router.get('/wxUserInfor',function(req,res){
-    wxAuth.getWxUserInfor(req,res)
+router.get('/oAuth2',function(req,res) {
+   // delete  req.headers['x-requested-with'];
+
+    if(!req.session.accessTime){
+        req.session.accessTime=0;
+    }
+    if(req.session.accessTime>1){
+        req.session.destroy(function(err){
+                res.clearCookie(ck);
+                res.sendStatus(500);
+        });
+        return;
+    }
+    if(!req.query.code && req.headers.referer){
+            req.app.locals.reqUrl=req.headers.referer;
+            req.session.accessTime++;
+            res.redirect(`/api/code?oauth=2`);
+    }else if(req.query.code){
+        wxAuth.getWxUserInfor(req, res);
+    }
+    else{ //不允许
+        res.sendStatus(403);
+    }
 })
 
 
@@ -68,63 +93,6 @@ router.get('/wxSign',function(req,res,next){ // #返回jsonp
     //res.jsonp({status:'jsonp'});
 });
 
-//var cpUpload = upload.fields([{ name: 'file1', maxCount: 1 }]);
-//getAuth();
-
-//getService();
-// getBucket();
-//getBucketAcl();
-
-// 创建实例
-// var cos = new COS({
-//     // AppId: '1251987790',
-//     SecretId: 'AKIDyFygbiN0dSFWoAK92H2je5GvUDILOni1',
-//     SecretKey: '9mXB5cT9knz5AfrIVZgpC0Mm9iDj7dG0',
-// });
-// // 分片上传
-// cos.sliceUploadFile({
-//     Bucket: 'dorodorolab-bucket-1251987790',
-//     Region: 'ap-shanghai',
-//     Key: 'lancher.png',
-//     FilePath: path.resolve(__dirname , '../upload/lancher.png')
-// }, function (err, data) {
-//     console.log(err, data);
-// });
-
-
-//router.use(bodyParser.json());
-
-// var crypto = require('crypto');
-//
-//
-// crypto.randomBytes(128,function(ex,buf){
-//     var token = buf.toString('hex');
-//     console.log(token);
-// });
-// router.use(function(req, res, next) {
-// });
-
-// router.get('/test', function(req, res, next) {
-//     res.send('Hello World');
-// })
-// this will only be invoked if the path starts with /bar from the mount point
-
-router.get('/imgupload', function(req, res,next){
-    //  env NODE_ENV=production
-    let data={};
-
-    res.render('cos/imgUpload',{data});
-});
-
-router.get('/dropupload', function(req, res,next){
-    //  env NODE_ENV=production
-
-    let data={};
-    res.render('cos/dropUpload',{data});
-});
-
-
-//var upload = require('./fileupload');
 
 //文件上传服务
 router.post('/upload',  function (req, res, next)  {
@@ -155,8 +123,6 @@ router.post('/upload',  function (req, res, next)  {
 
 router.post('/upload2', async(req, res , next)=>{
 
-
-
     //接收前台POST过来的base64
     let imgData = req.body.base64data;
 
@@ -180,121 +146,16 @@ router.post('/upload2', async(req, res , next)=>{
         console.log(err);
         res.send('error');
     }
-
-    // })();
-
-    //
-    // var stream= fs.createWriteStream("./upload/out3.png",'utf-8');
-    // stream.write(dataBuffer);
-    // stream.end();
-    // console.log('end');
-    // stream.on('finish', () => { console.log('finish'); });
-    // stream.on('error', (err) => { console.log(err); });
-    // console.log('last');
-    // res.send('保存成功');
-    // fs.writeFile("./upload/out.png", dataBuffer, function(err) {
-    //     if(err){
-    //         console.log(err);
-    //         res.send(err);
-    //     }else{
-    //         console.log('suc');
-    //         res.send("保存成功！");
-    //     }
-    // });
 });
 
 router.get('/', function(req, res,next){
-    //  env NODE_ENV=production
-    let items=["Jack","Rose","Alice","Ave"];
 
 
 
-    //console.log(app.locals);
-    let data={};
-    //
-    data.ip=req.ip;
-    data.items=items;
-    // res.locals.items=items;
-    // //res.cookie('lanbo', 'caicaiwo', { signed: true });
-    //
-    // if (req.session.user) {
-    //
-    //     if (req.session.isVisit) {
-    //
-    //         req.session.isVisit++;
-    //     } else {
-    //         req.session.isVisit = 1;
-    //
-    //     }
-    //
-    //     data.isLogin=req.session.user.isLogin;
-    //     data.username=req.session.user.name;
-    //     data.isVisit=req.session.isVisit;
-    //     //{name:'sss', welcome:req.cookies.uname||null,count:count||null}
-    //     // res.sendFile('./');
-    //     //   res.sendFile(path.resolve(__dirname , '../public/test.html'));
-    //
-    //
-    //     //   res.render('test', {name:'sss', welcome:req.cookies.uname,count:count});
-    //     // res.clearCookie("isVisit");
-    // }
+    res.sendStatus(403);
 
-
-    res.render('index',{data});
-    // else {
-    //     //res.cookie('isVisit', 1, {maxAge: 10 * 60 * 1000,httpOnly:false});
-    //     //  res.send("欢迎第一次访问");
-    //     res.render('test', {name:'sss'});
-    //
-    // }
-    //res.send('hello world');
-    //next();
 });
 
-router.route('/login')
-    .get(function(req, res, next) {
-        res.render('login');
-    })
-    .post(function(req, res, next) {
-
-        let codeData;
-        let un=req.body.username;
-        let pw=req.body.password;
-        let dpw=util.md5(pw);
-
-        if(dpw==='e10adc3949ba59abbe56e057f20f883e'){ //123456
-
-
-            req.session.regenerate(function(err) {
-                // will have a new session here
-                req.session.user={};
-                req.session.user.isLogin=true;
-                req.session.user.name=un;
-            })
-            codeData=code.getCodeRes(1000);
-        }else{
-            codeData=code.getCodeRes(1001);
-        }
-
-        res.render('login',{codeData});
-        return;
-    })
-
-
-router.route('/loginout')
-    .get(function(req, res, next) {
-        req.session.destroy(function(err){
-            if(err){
-                let codeData=code.getCodeRes(0);
-                res.json({codeData});
-            }else{
-
-                res.clearCookie(ck);
-                res.redirect('/test/home');
-            }
-
-        });
-    })
 // //error
 // router.use(function(req, res, next) {
 //     //  res.send('404');

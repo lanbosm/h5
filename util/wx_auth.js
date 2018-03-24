@@ -19,6 +19,7 @@ exports.getCode=function(req,res,url){
 
     res.redirect(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.wxConfig.appId}&redirect_uri=${return_uri}&response_type=code&scope=${scope}&state=STATE#wechat_redirect`);
 
+
     return false;
 
 }
@@ -30,7 +31,7 @@ exports.getCode=function(req,res,url){
 //获取微信用户信息
 exports.getWxUserInfor = function(req,res){
 
-    //res.send({sss:12});
+
     async.waterfall([
 
         function(){ //获取code的access_token
@@ -40,8 +41,10 @@ exports.getWxUserInfor = function(req,res){
                 if (!error && response.statusCode == 200) {
                     let tokenData = JSON.parse(body);
                     if(req.query.scope == 'snsapi_base'){
-                        // res.set("Access-Control-Allow-Origin","*") //设置解决跨域问题
-                        res.send(tokenData)
+                        var rurl=req.app.locals.reqUrl.split('?')[0];
+                        req.app.locals.reqUrl=null;
+                        res.redirect(`${rurl}?openId=${tokenData.openid}`);
+
                     } else {
                         callback(null,tokenData);
                     }

@@ -3,8 +3,8 @@ var config=require('../config/db');
 
 var db=mysql.createConnection(config);
 
-db.connect(function(err) {
-    if (err) {
+db.connect(function(error) {
+    if (error) {
         console.error('error connecting: ' + err.stack);
         return;
     }
@@ -25,13 +25,13 @@ db.query('USE `h5-card-game`', function (error, results, fields) {
 
 db.query('DROP TABLE IF EXISTS `game`');
 
-db.query(`CREATE TABLE game (gid INT(12) AUTO_INCREMENT ,cards_max INT(2) , cards_now INT(2) , cards VARCHAR(255) , created DATETIME, PRIMARY KEY (gid))` , function (error, results, fields) {
+db.query(`CREATE TABLE game (gid INT AUTO_INCREMENT ,cards_max INT(2) , cards_now INT(2) , cards VARCHAR(255) , created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,  PRIMARY KEY (gid))` , function (error, results, fields) {
     if (error) throw error;
     console.log('created game table OK');
 });
 
 // gid  cards_max cards_now  created     cards
-//  1    17        17      20:20201   {a:4,b:4,c:3,d:4}
+//  1    17        17      20:20201   {a:4,b:4,c:3,ds:4}
 
 
 //openid  card    gameid
@@ -41,7 +41,7 @@ db.query(`CREATE TABLE game (gid INT(12) AUTO_INCREMENT ,cards_max INT(2) , card
 
 db.query(`DROP TABLE IF EXISTS player`);
 
-db.query(`CREATE TABLE player (openId INT(64) NOT NULL ,gid INT(12) , card_now VARCHAR(4)  , joinTime DATETIME, PRIMARY KEY (openId))` , function (error, results, fields) {
+db.query(`CREATE TABLE player (id INT AUTO_INCREMENT , openId VARCHAR(64) NOT NULL ,gid INT , card_now VARCHAR(4)  , joinTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (id))` , function (error, results, fields) {
     if (error) throw error;
     console.log('created player table OK');
 });
